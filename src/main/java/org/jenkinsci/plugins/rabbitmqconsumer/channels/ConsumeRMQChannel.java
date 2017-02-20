@@ -132,10 +132,9 @@ public class ConsumeRMQChannel extends AbstractRMQChannel {
                     }
                 }
 
-                if (properties.getAppId() != null &&
-                        !properties.getAppId().equals(RabbitmqConsumeItem.DEBUG_APPID)) {
-                    if (appIds.contains(properties.getAppId())) {
-                        MessageQueueListener.fireOnReceive(properties.getAppId(),
+                for (String appId : appIds) {
+                    if (!(appId.equals(RabbitmqConsumeItem.DEBUG_APPID))) {
+                        MessageQueueListener.fireOnReceive(appId,
                                 queueName, contentType, headers, body);
                     }
                 }

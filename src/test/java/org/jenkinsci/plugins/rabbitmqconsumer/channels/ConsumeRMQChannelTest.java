@@ -89,7 +89,7 @@ public class ConsumeRMQChannelTest {
         Envelope envelope = new Envelope(0L, false, "exchange-1", "test.app");
 
         AMQP.BasicProperties.Builder builder = new AMQP.BasicProperties.Builder();
-        builder.appId("app-1");
+        builder.appId("sender");
         builder.contentEncoding(CharEncoding.UTF_8);
         builder.contentType("application/json");
 
@@ -104,8 +104,7 @@ public class ConsumeRMQChannelTest {
             Consumer consumer = Mocks.consumerPool.pop();
             consumer.handleDelivery("consumerTag", envelope, props, "Test message".getBytes());
 
-            assertEquals("Unmatched response size", 1, Mocks.responseArray.size());
-            assertThat("Unmatch consumed queue.", Mocks.responseArray.get(0), is("listener-1"));
+            assertEquals("Unmatched response size", 2, Mocks.responseArray.size());
             channel.close();
         } catch (Exception ex) {
             ex.printStackTrace();
